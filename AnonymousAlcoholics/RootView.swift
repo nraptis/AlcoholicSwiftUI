@@ -22,15 +22,19 @@ struct RootView: View {
                                             height: geometry.size.height)
                             .environment(ApplicationController.shared.getDrinkSearchRouter())
                             .environment(ApplicationController.shared.getDrinkSearchController())
+                            .ignoresSafeArea(.keyboard)
                         
                     case .randomDrink:
                         RandomDrinkRootView()
                             .environment(ApplicationController.shared.getRandomDrinkRouter())
                             .environment(ApplicationController.shared.getRandomDrinkController())
+                            .ignoresSafeArea(.keyboard)
                     }
                 }
                 MainTabBarView()
+                    .ignoresSafeArea(.keyboard)
             }
+            .ignoresSafeArea(.keyboard)
         }
     }
 }

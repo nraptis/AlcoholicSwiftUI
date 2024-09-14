@@ -36,6 +36,7 @@ struct DrinkSearchRootView: View {
                 }
             */
         }
+        .ignoresSafeArea(.keyboard)
     }
 }
 

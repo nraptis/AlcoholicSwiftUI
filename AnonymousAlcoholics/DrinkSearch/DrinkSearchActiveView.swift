@@ -30,6 +30,7 @@ struct DrinkSearchActiveView: View {
                               clearAction: searchClearAction,
                               cancelAction: searchCancelAction,
                               searchBarFocusState: searchBarFocusState)
+                .ignoresSafeArea(.keyboard)
                 .matchedGeometryEffect(id: DrinkSearchController.searchAnimationID,
                                        in: searchAnimationNamespace)
                 
@@ -45,7 +46,7 @@ struct DrinkSearchActiveView: View {
             }
             .frame(height: 1.0)
             .background(Theme.Colors.mauve)
-            
+            .ignoresSafeArea(.keyboard)
             
             
             
@@ -57,6 +58,7 @@ struct DrinkSearchActiveView: View {
                     
                     Spacer()
                         .frame(height: Theme.DrinkList.paddingTop)
+                        .ignoresSafeArea(.keyboard)
                     
                     ForEach(controller.drinks) { drink in
                         let isThumbDownloadErrorPresent = controller.getImageDownloadDidFail(drink: drink)
@@ -66,11 +68,15 @@ struct DrinkSearchActiveView: View {
                                       image: image,
                                       zoomAnimationNamespace: zoomAnimationNamespace)
                         .id(drink)
+                        .ignoresSafeArea(.keyboard)
                     }
+                    .ignoresSafeArea(.keyboard)
                     
                     Spacer()
                         .frame(height: Theme.DrinkList.paddingTop)
+                        .ignoresSafeArea(.keyboard)
                 }
+                .ignoresSafeArea(.keyboard)
             }
             .scrollPosition($scrollPosition)
             .background(Theme.Colors.charcoal)
@@ -83,9 +89,10 @@ struct DrinkSearchActiveView: View {
                     scrollPosition.scrollTo(id: drink)
                 }
             }
+            .ignoresSafeArea(.keyboard)
         }
         .background(Theme.Colors.charcoal)
-        
+        .ignoresSafeArea(.keyboard)
     }
     
     func searchAction(searchText: String) {

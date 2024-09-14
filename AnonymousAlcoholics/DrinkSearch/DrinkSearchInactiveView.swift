@@ -23,6 +23,7 @@ struct DrinkSearchInactiveView: View {
             .transaction { transaction in
                 transaction.animation = nil
             }
+            .ignoresSafeArea(.keyboard)
             Button(action: {
                 action()
             }, label: {
@@ -35,11 +36,14 @@ struct DrinkSearchInactiveView: View {
                 .matchedGeometryEffect(id: DrinkSearchController.searchAnimationID,
                                        in: searchAnimationNamespace)
                 .zIndex(1000.0)
+                .ignoresSafeArea(.keyboard)
             })
+            .ignoresSafeArea(.keyboard)
             VStack {
                 GeometryReader { geometry in
                     getBottomStinger(geometry: geometry)
                 }
+                .ignoresSafeArea(.keyboard)
             }
             .transaction { transaction in
                 transaction.animation = nil

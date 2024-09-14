@@ -32,24 +32,10 @@ struct DrinkSearchContainerView: View {
                         } completion: {
                             searchBarFocusState = false
                         }
-                        
-                        
-                        
-                        
-                        
                     }, searchBarFocusState: $searchBarFocusState,
                                           searchAnimationNamespace: searchAnimationNamespace,
                                           zoomAnimationNamespace: zoomAnimationNamespace)
-                    /*
-                     HomeActiveView(cancelAction: {
-                     searchBarFocusState = true
-                     withAnimation {
-                     isSearching = false
-                     }
-                     }, searchBarFocusState: $searchBarFocusState,
-                     searchAnimationNamespace: searchAnimationNamespace,
-                     zoomAnimationNamespace: zoomAnimationNamespace)
-                     */
+                    .ignoresSafeArea(.keyboard)
                 } else {
                     DrinkSearchInactiveView(searchAnimationNamespace: searchAnimationNamespace) {
                         searchBarFocusState = true
@@ -57,22 +43,17 @@ struct DrinkSearchContainerView: View {
                             isSearching = true
                         }
                     }
-                    /*
-                     HomeRestingView(searchAnimationNamespace: searchAnimationNamespace, action: {
-                     searchBarFocusState = true
-                     withAnimation {
-                     isSearching = true
-                     }
-                     })
-                     */
+                    .ignoresSafeArea(.keyboard)
                 }
             }
             .background(Theme.Colors.onyx)
+            .ignoresSafeArea(.keyboard)
             .task {
                 await controller.fetchDrinks()
             }
         }
         .frame(width: width, height: height)
+        .ignoresSafeArea(.keyboard)
         .sheet(item: $controller.selectedFullScreenGalleryDrink) { drink in
             //.sheet(isPresented: $homeController.SHOWSHEET) {
             //print("Refrashing Sheet, with zoom zoom bing: \(controller.zoomAnimationDrink?.name ?? "nune")")
