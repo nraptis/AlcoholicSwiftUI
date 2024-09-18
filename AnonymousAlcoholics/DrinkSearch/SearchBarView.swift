@@ -35,26 +35,21 @@ struct SearchBarView: View {
                         HStack {
                             HStack {
                                 
-                                GeometryReader { _ in
-                                    TextField("", text: $searchText, prompt:
-                                                Text("Drink Name")
-                                        .font(Theme.SearchBar.fontPlaceholder)
-                                        .foregroundStyle(Theme.Colors.steel)
-                                              
-                                    )
-                                    .font(Theme.SearchBar.fontMain)
-                                    .foregroundStyle(Theme.Colors.cloud)
-                                    .autocorrectionDisabled()
-                                    .autocapitalization(.none)
-                                    .focused(searchBarFocusState, equals: true)
-                                    .multilineTextAlignment(.leading)
-                                    .tint(Theme.Colors.limestone)
-                                    .onChange(of: searchText, { _, newValue in
-                                        searchTextUpdateAction(newValue)
-                                    })
-                                    .ignoresSafeArea(.keyboard)
-                                }
-                                .ignoresSafeArea(.keyboard)
+                                TextField("", text: $searchText, prompt:
+                                            Text("Drink Name")
+                                    .font(Theme.SearchBar.fontPlaceholder)
+                                    .foregroundStyle(Theme.Colors.steel)
+                                )
+                                .font(Theme.SearchBar.fontMain)
+                                .foregroundStyle(Theme.Colors.cloud)
+                                .autocorrectionDisabled()
+                                .autocapitalization(.none)
+                                .focused(searchBarFocusState, equals: true)
+                                .multilineTextAlignment(.leading)
+                                .tint(Theme.Colors.limestone)
+                                .onChange(of: searchText, { _, newValue in
+                                    searchTextUpdateAction(newValue)
+                                })
                                 
                                 Spacer()
                                 
@@ -70,14 +65,13 @@ struct SearchBarView: View {
                         .padding(.leading, Theme.SearchBar.paddingLeading1)
                         .padding(.trailing, Theme.SearchBar.paddingTrailing1)
                         .padding(.vertical, Theme.SearchBar.paddingInnerV1)
-                        .ignoresSafeArea(.keyboard)
                     }
                     .background(Capsule().foregroundStyle(
                         LinearGradient(colors: [Theme.Colors.mauve.opacity(0.4), Theme.Colors.mauve.opacity(0.6)], startPoint: .top, endPoint: .bottom)
                     ))
                     .overlay(Capsule().stroke().foregroundStyle(Theme.Colors.mauve))
                     .padding(.vertical, Theme.SearchBar.paddingInnerV2)
-                    .ignoresSafeArea(.keyboard)
+                    
                     Button {
                         cancelAction()
                     } label: {
@@ -87,14 +81,13 @@ struct SearchBarView: View {
                     }
                     .padding(.trailing, Theme.SearchBar.paddingCancelTrailing)
                     .padding(.leading, Theme.SearchBar.paddingCancelLeading)
-                    .ignoresSafeArea(.keyboard)
+                    
                 }
             }
-            .frame(height: 60.0)
             .background(RoundedRectangle(cornerRadius: Theme.SearchBar.underlayCornerRadius).foregroundStyle(Theme.Colors.concord))
             .overlay(RoundedRectangle(cornerRadius: Theme.SearchBar.underlayCornerRadius).stroke().foregroundStyle(Theme.Colors.mauve))
             .padding(.horizontal, Theme.SearchBar.paddingOuterH)
-            .ignoresSafeArea(.keyboard)
+            .frame(height: Theme.SearchBar.height)
         }
     }
 }

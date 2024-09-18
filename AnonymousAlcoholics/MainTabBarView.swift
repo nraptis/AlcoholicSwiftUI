@@ -19,7 +19,6 @@ struct MainTabBarView: View {
                 
         default:
             getContentCompact()
-                
         }
     }
     

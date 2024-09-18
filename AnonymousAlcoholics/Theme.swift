@@ -20,6 +20,12 @@ struct Theme {
         static let steel = Color("steel")
         static let onyx = Color("onyx")
         static let limestone = Color("limestone")
+        
+        // Opacity modifier not working with these.
+        static let onyx_fade_0 = Color("onyx_fade_0")
+        static let onyx_fade_1 = Color("onyx_fade_1")
+        static let onyx_fade_2 = Color("onyx_fade_2")
+        static let onyx_fade_3 = Color("onyx_fade_3")
     }
     
     struct NavigationBar {
@@ -32,6 +38,8 @@ struct Theme {
     }
     
     struct SearchBar {
+        
+        static let height = CGFloat(70.0)
         static let fontMain = Font.system(size: 18.0, weight: .medium)
         static let fontCancel = Font.system(size: 16.0, weight: .semibold)
         static let fontPlaceholder = Font.system(size: 18.0, weight: .medium)

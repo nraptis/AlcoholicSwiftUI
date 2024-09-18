@@ -26,7 +26,7 @@ import SwiftUI
     
     var fuckinPage = 0
     
-    let drinkSearchRouter: DrinkSearchRouter
+    var drinkSearchRouter: DrinkSearchRouter
     init(drinkSearchRouter: DrinkSearchRouter) {
         self.drinkSearchRouter = drinkSearchRouter
     }
@@ -70,8 +70,10 @@ import SwiftUI
         print("userIntentActionFullScreenGallery: \(drink.name)")
         
         zoomAnimationDrink = drink
+        print("(Intent) zoomAnimationDrink => \(zoomAnimationDrink?.name ?? "NULL")")
         withAnimation(.smooth(duration: 3.0)) {
             selectedFullScreenGalleryDrink = drink
+            print("(Intent) selectedFullScreenGalleryDrink => \(selectedFullScreenGalleryDrink?.name ?? "NULL")")
         }
     }
     

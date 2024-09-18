@@ -35,13 +35,7 @@ import SwiftUI
     }
     
     func userIntentActionSwitchChapter(_ chapter: ApplicationChapter) {
-        self.chapter = chapter
-        switch chapter {
-        case .searchDrink:
-            ApplicationController.shared.disposeRandomDrink()
-        case .randomDrink:
-            ApplicationController.shared.disposeDrinkSearch()
-        }
+        
     }
     
 }

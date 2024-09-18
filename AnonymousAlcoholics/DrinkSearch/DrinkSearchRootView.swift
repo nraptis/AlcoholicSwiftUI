@@ -12,40 +12,61 @@ struct DrinkSearchRootView: View {
     @Environment(DrinkSearchRouter.self) var router: DrinkSearchRouter
     @Environment(DrinkSearchController.self) var controller: DrinkSearchController
     
-    let width: CGFloat
-    let height: CGFloat
-    
     var body: some View {
         @Bindable var router = router
         return NavigationStack(path: $router.navigationPath) {
             
-            DrinkSearchContainerView(width: width, height: height)
-                .navigationDestination(for: DrinkDetailController.self) { drinkDetailController in
-                    return DrinkDetailView()
-                        .environment(drinkDetailController)
+            GeometryReader { geometry in
+                
+                /*
+                return VStack {
+                    
+                    SearchBarView(searchAction: searchAction,
+                                  searchTextUpdateAction: searchTextUpdateAction,
+                                  clearAction: searchClearAction,
+                                  cancelAction: searchCancelAction,
+                                  searchBarFocusState: FocusState<Bool>().projectedValue)
+                    
+                    
+                    Spacer()
                     
                 }
-            
-            /*
-            HomeView()
-                .environment(router.homeController)
-                .navigationDestination(for: DetailController.self) { detailController in
-                    return DetailView()
-                        .environment(detailController)
-                    
-                }
-            */
+                .background(RoundedRectangle(cornerRadius: 16.0).foregroundStyle(Color.red.opacity(0.5)))
+                */
+                
+                 DrinkSearchContainerView(width: geometry.size.width,
+                                          height: geometry.size.height)
+                 
+                
+                
+                /*
+                 }
+                 
+                 .navigationDestination(for: DrinkDetailController.self) { drinkDetailController in
+                 return DrinkDetailView()
+                 .environment(drinkDetailController)
+                 }
+                 .ignoresSafeArea(.keyboard)
+                 */
+            }
+            .ignoresSafeArea(.keyboard, edges: .bottom)
+            //.ignoresSafeArea(edges: .bottom)
         }
-        .ignoresSafeArea(.keyboard)
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
+    
+    //TODO: Remove stubs
+    func searchAction(searchText: String) { }
+    func searchTextUpdateAction(searchText: String) { }
+    func searchClearAction() { }
+    func searchCancelAction() { }
+    
 }
 
 #Preview {
-    
     GeometryReader { geometry in
-        DrinkSearchRootView(width: geometry.size.width,
-                            height: geometry.size.height)
-        .environment(DrinkSearchRouter.mock())
-        .environment(DrinkSearchController.mock())
+        DrinkSearchRootView()
+            .environment(DrinkSearchRouter.mock())
+            .environment(DrinkSearchController.mock())
     }
 }

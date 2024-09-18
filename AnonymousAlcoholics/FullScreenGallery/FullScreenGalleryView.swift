@@ -8,14 +8,11 @@
 import SwiftUI
 
 struct FullScreenGalleryView: View {
-    @Environment(DrinkSearchController.self) var controller: DrinkSearchController
     
+    @Environment(DrinkSearchController.self) var controller: DrinkSearchController
     let zoomAnimationNamespace: Namespace.ID
     
     @State private var scrollPosition: ScrollPosition// = ScrollPosition(edge: .trailing) //.init(idType: Drink.ID.self)
-    
-    //@State var zoomAnimationDrink: Drink
-    
     init(zoomAnimationNamespace: Namespace.ID, drink: Drink) {
         self.zoomAnimationNamespace = zoomAnimationNamespace
         _scrollPosition = State(initialValue: ScrollPosition.init(id: drink))
@@ -44,7 +41,6 @@ struct FullScreenGalleryView: View {
                 .scrollPosition($scrollPosition)
                 .scrollTargetBehavior(.paging)
                 .scrollIndicators(.hidden)
-                
                 .onScrollPhaseChange { oldPhase, newPhase, context in
                     switch newPhase {
                     case .idle:
@@ -55,7 +51,7 @@ struct FullScreenGalleryView: View {
                             
                             if let zoomDrink = controller.getDrink(index: page) {
                                 controller.zoomAnimationDrink = zoomDrink
-                                print("Set zoomAnimationDrink to \(zoomDrink)")
+                                print("(Scroll Phase) zoomAnimationDrink => \(zoomDrink.name)")
                             }
                         }
                     default:

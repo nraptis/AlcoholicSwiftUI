@@ -1,39 +1,22 @@
 //
-//  DrinkSearchInactiveView.swift
+//  DrinkSearchInactiveViewA.swift
 //  AnonymousAlcoholics
 //
-//  Created by Nicky Taylor on 9/12/24.
+//  Created by Nicky Taylor on 9/17/24.
 //
 
 import SwiftUI
 
-struct DrinkSearchInactiveView: View {
-    @FocusState private var searchBarFocusState: Bool
+struct DrinkSearchInactiveViewA: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
-    let searchAnimationNamespace: Namespace.ID
-    let action: () -> Void
-    
     var body: some View {
-        VStack {
+        VStack(spacing: 0.0) {
             GeometryReader { geometry in
                 getTopStinger(geometry: geometry)
             }
             
-            Button(action: {
-                action()
-            }, label: {
-                SearchBarView(searchAction: searchAction,
-                              searchTextUpdateAction: searchTextUpdateAction,
-                              clearAction: searchClearAction,
-                              cancelAction: searchCancelAction,
-                              searchBarFocusState: $searchBarFocusState)
-                .disabled(true)
-                .matchedGeometryEffect(id: DrinkSearchController.searchAnimationID,
-                                       in: searchAnimationNamespace)
-                .transition(.scale(scale: 1.0))
-                .zIndex(1000.0)
-                
-            })
+            Spacer()
+                .frame(height: Theme.SearchBar.height)
             
             GeometryReader { geometry in
                 getBottomStinger(geometry: geometry)
@@ -43,22 +26,6 @@ struct DrinkSearchInactiveView: View {
             }
         }
         .background(Theme.Colors.onyx)
-    }
-    
-    func searchAction(searchText: String) {
-        print("searchAction(\(searchText))")
-    }
-    
-    func searchTextUpdateAction(searchText: String) {
-        print("searchTextUpdateAction(\(searchText))")
-    }
-    
-    func searchClearAction() {
-        print("searchClearAction")
-    }
-    
-    func searchCancelAction() {
-        print("searchCancelAction")
     }
     
     func getTopStinger(geometry: GeometryProxy) -> some View {
@@ -93,7 +60,7 @@ struct DrinkSearchInactiveView: View {
         }
     }
     
-    private func getBottomStingerMagicRectangle(fadeHeight: CGFloat, 
+    private func getBottomStingerMagicRectangle(fadeHeight: CGFloat,
                                                 geometryWidth: CGFloat,
                                                 geometryHeight: CGFloat) -> CGRect {
         if geometryWidth < 32.0 || geometryHeight < 32.0 {
@@ -175,20 +142,31 @@ struct DrinkSearchInactiveView: View {
         var gradientPath = Path()
         gradientPath.addRect(gradientFrame)
         
+        
         return ZStack {
             Canvas { context, size in
                 context.draw(Self.shots, in: magicRectangle)
                 
+                //context.fill(gradientPath, with: .color(.teal))
+                
+                context.fill(gradientPath, with: .linearGradient(.init(colors: [Theme.Colors.onyx.opacity(1.0),
+                                                                                Theme.Colors.onyx.opacity(0.7),
+                                                                                Theme.Colors.onyx.opacity(0.0)
+                                                                               ]), startPoint: CGPoint(x: geometry.size.width * 0.5, y: 0.0), endPoint: CGPoint(x: geometry.size.width * 0.5, y: fadeHeight)))
+                
+                /*
                 context.fill(gradientPath, with: .linearGradient(.init(colors: [Theme.Colors.onyx,
                                                                                 Theme.Colors.onyx.opacity(0.9),
                                                                                 Theme.Colors.onyx.opacity(0.7),
                                                                                 Theme.Colors.onyx.opacity(0.4),
-                                                                                Theme.Colors.onyx.opacity(0.0)]), startPoint: CGPoint(x: 0.5, y: 0.0), endPoint: CGPoint(x: 0.5, y: 1.0)))
+                                                                                Theme.Colors.onyx.opacity(0.0)]), startPoint: CGPoint(x: geometry.size.width * 0.5, y: 0.0), endPoint: CGPoint(x: geometry.size.width * 0.5, y: fadeHeight)))
+                */
                 
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
-            //.opacity(0.325)
+            .opacity(0.325)
             
+            /*
             VStack {
                 HStack {
                     Spacer()
@@ -201,15 +179,14 @@ struct DrinkSearchInactiveView: View {
                                                     Theme.Colors.onyx.opacity(0.0)], startPoint: .top, endPoint: .bottom))
                 Spacer()
             }
-            
+            */
             
         }
-        .transaction { transaction in
-            transaction.animation = nil
-        }
+        //.background(Color.pink)
+        
     }
 }
 
 #Preview {
-    DrinkSearchInactiveView(searchAnimationNamespace: Namespace().wrappedValue) { }
+    DrinkSearchInactiveViewA()
 }

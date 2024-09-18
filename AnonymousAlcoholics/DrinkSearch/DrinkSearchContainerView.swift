@@ -18,58 +18,120 @@ struct DrinkSearchContainerView: View {
     
     let width: CGFloat
     let height: CGFloat
-    
     var body: some View {
         @Bindable var controller = controller
         return ZStack {
-            VStack(spacing: 0.0) {
-                
-                if isSearching {
-                    DrinkSearchActiveView(cancelAction: {
+            if isSearching {
+                DrinkSearchActiveViewA(zoomAnimationNamespace: zoomAnimationNamespace)
+                DrinkSearchActiveViewB(cancelAction: {
+                    searchBarFocusState = false
+                    withAnimation {
+                        isSearching = false
+                    } completion: {
                         
-                        withAnimation {
-                            isSearching = false
-                        } completion: {
-                            searchBarFocusState = false
-                        }
-                    }, searchBarFocusState: $searchBarFocusState,
-                                          searchAnimationNamespace: searchAnimationNamespace,
-                                          zoomAnimationNamespace: zoomAnimationNamespace)
-                    .ignoresSafeArea(.keyboard)
-                } else {
-                    DrinkSearchInactiveView(searchAnimationNamespace: searchAnimationNamespace) {
-                        searchBarFocusState = true
-                        withAnimation {
-                            isSearching = true
-                        }
                     }
-                    .ignoresSafeArea(.keyboard)
+                }, searchBarFocusState: $searchBarFocusState,
+                                      searchAnimationNamespace: searchAnimationNamespace)
+                .transition(.scale(scale: 1.0))
+                
+            } else {
+                DrinkSearchInactiveViewA()
+                DrinkSearchInactiveViewB(searchAnimationNamespace: searchAnimationNamespace) {
+                    searchBarFocusState = true
+                    withAnimation {
+                        isSearching = true
+                    }
                 }
+                .transition(.scale(scale: 1.0))
             }
-            .background(Theme.Colors.onyx)
-            .ignoresSafeArea(.keyboard)
-            .task {
-                await controller.fetchDrinks()
-            }
+            
+            
         }
         .frame(width: width, height: height)
-        .ignoresSafeArea(.keyboard)
+        .background(Theme.Colors.onyx)
+        .task {
+            await controller.fetchDrinks()
+        }
         .sheet(item: $controller.selectedFullScreenGalleryDrink) { drink in
             //.sheet(isPresented: $homeController.SHOWSHEET) {
             //print("Refrashing Sheet, with zoom zoom bing: \(controller.zoomAnimationDrink?.name ?? "nune")")
-            //print("Refrashing Sheet, with \"drink\": \(drink)")
             
-            FullScreenGalleryView(zoomAnimationNamespace: zoomAnimationNamespace,
+            print("Refreshing Sheet, with \"drink\": \(drink)")
+            
+            return FullScreenGalleryView(zoomAnimationNamespace: zoomAnimationNamespace,
                                          drink: drink)
             .navigationTransition(.zoom(sourceID: controller.zoomAnimationDrink?.id ?? "", in: zoomAnimationNamespace))
         }
-        /*
-         .sheet(item: $homeController.selectedFullScreenGalleryDrink) { drink in
+    }
+        
+        
+        /*ZStack {
+         VStack(spacing: 0.0) {
+         GeometryReader { _ in
+         if isSearching {
+         DrinkSearchActiveView(cancelAction: {
+         
+         searchBarFocusState = false
+         withAnimation {
+         isSearching = false
+         } completion: {
+         
+         }
+         }, searchBarFocusState: $searchBarFocusState,
+         searchAnimationNamespace: searchAnimationNamespace,
+         zoomAnimationNamespace: zoomAnimationNamespace)
+         
+         } else {
+         DrinkSearchInactiveView(searchAnimationNamespace: searchAnimationNamespace) {
+         searchBarFocusState = true
+         withAnimation {
+         isSearching = true
+         }
+         }
+         }
+         }
+         }
+         .background(Theme.Colors.onyx)
+         
+         .task {
+         await controller.fetchDrinks()
+         }
+         }
+         .frame(width: width, height: height)
+         .overlay(
+         RoundedRectangle(cornerRadius: 32.0).stroke(lineWidth: 12.0).foregroundStyle(Color.white.opacity(0.5))
+         
+         )
+         
+         .sheet(item: $controller.selectedFullScreenGalleryDrink) { drink in
+         //.sheet(isPresented: $homeController.SHOWSHEET) {
+         //print("Refrashing Sheet, with zoom zoom bing: \(controller.zoomAnimationDrink?.name ?? "nune")")
+         
+         print("Refreshing Sheet, with \"drink\": \(drink)")
+         
          return FullScreenGalleryView(zoomAnimationNamespace: zoomAnimationNamespace,
          drink: drink)
-         .navigationTransition(.zoom(sourceID: homeController.zoomAnimationDrink?.id ?? "", in: zoomAnimationNamespace))
+         .navigationTransition(.zoom(sourceID: controller.zoomAnimationDrink?.id ?? "", in: zoomAnimationNamespace))
+         }
          }
          */
+        
+     
+    
+    func searchAction(searchText: String) {
+        print("searchAction(\(searchText))")
+    }
+    
+    func searchTextUpdateAction(searchText: String) {
+        print("searchTextUpdateAction(\(searchText))")
+    }
+    
+    func searchClearAction() {
+        print("searchClearAction")
+    }
+    
+    func searchCancelAction() {
+        print("searchCancelAction")
     }
 }
 

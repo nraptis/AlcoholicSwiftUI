@@ -1,31 +1,23 @@
 //
-//  DrinkSearchActiveView.swift
+//  DrinkSearchActiveViewA.swift
 //  AnonymousAlcoholics
 //
-//  Created by Nicky Taylor on 9/12/24.
+//  Created by Nicky Taylor on 9/17/24.
 //
 
 import SwiftUI
 
-struct DrinkSearchActiveView: View {
+struct DrinkSearchActiveViewA: View {
     @Environment(DrinkSearchController.self) var controller: DrinkSearchController
     @State private var scrollPosition = ScrollPosition(edge: .top)
-    let cancelAction: () -> Void
-    var searchBarFocusState: FocusState<Bool>.Binding
-    let searchAnimationNamespace: Namespace.ID
     let zoomAnimationNamespace: Namespace.ID
     var body: some View {
         VStack(spacing: 0.0) {
             VStack(spacing: 0.0) {
                 Spacer()
                     .frame(height: Theme.SearchHeader.paddingTop)
-                SearchBarView(searchAction: searchAction,
-                              searchTextUpdateAction: searchTextUpdateAction,
-                              clearAction: searchClearAction,
-                              cancelAction: searchCancelAction,
-                              searchBarFocusState: searchBarFocusState)
-                .matchedGeometryEffect(id: DrinkSearchController.searchAnimationID,
-                                       in: searchAnimationNamespace)
+                Spacer()
+                    .frame(height: Theme.SearchBar.height)
                 Spacer()
                     .frame(height: Theme.SearchHeader.paddingBottom)
             }
@@ -42,7 +34,6 @@ struct DrinkSearchActiveView: View {
                     
                     Spacer()
                         .frame(height: Theme.DrinkList.paddingTop)
-                    
                     
                     ForEach(controller.drinks) { drink in
                         let isThumbDownloadErrorPresent = controller.getImageDownloadDidFail(drink: drink)
@@ -72,30 +63,9 @@ struct DrinkSearchActiveView: View {
         }
         .background(Theme.Colors.onyx)
     }
-    
-    func searchAction(searchText: String) {
-        print("searchAction(\(searchText))")
-    }
-    
-    func searchTextUpdateAction(searchText: String) {
-        print("searchTextUpdateAction(\(searchText))")
-    }
-    
-    func searchClearAction() {
-        print("searchClearAction")
-    }
-    
-    func searchCancelAction() {
-        print("searchCancelAction")
-        cancelAction()
-    }
-    
 }
 
 #Preview {
-    DrinkSearchActiveView(cancelAction: { },
-                   searchBarFocusState: FocusState<Bool>().projectedValue,
-                   searchAnimationNamespace: Namespace().wrappedValue,
-                   zoomAnimationNamespace: Namespace().wrappedValue)
+    DrinkSearchActiveViewA(zoomAnimationNamespace: Namespace().wrappedValue)
     .environment(DrinkSearchController.mock())
 }
